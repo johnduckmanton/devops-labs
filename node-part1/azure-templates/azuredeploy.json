@@ -56,7 +56,15 @@
           "name": "[parameters('webSiteName')]",
           "location": "[resourceGroup().location]",
           "properties": {
-             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
+             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+             "siteConfig": {
+                "appSettings": [
+                    {
+                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                        "value": "6.11.2"
+                    }
+                ]
+            }
           },
           "dependsOn": [
              "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
