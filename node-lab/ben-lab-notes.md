@@ -38,7 +38,6 @@
 - Create new VSTS project call it "DevOps Lab"
   - Pick Git as source control
   - Take other defaults other than share with "Team Members" only
-
 - On new project page in VSTS
   - Expand "push an existing repository from command line" box
   - Copy commands there
@@ -46,7 +45,7 @@
   - **Explain Git remote** 
   - Back in VSTS click on "Code" on menu (validate your code is there!)
 
-*(FROM HERE MY NOTES GET ROUGHER!)*
+### *(FROM HERE MY NOTES GET ROUGHER!)*
 
 # VSTS - Build process
 - Click setup build
@@ -61,7 +60,6 @@
 - click queue
 - click on build number (opens in new tab)
 - watch & wait!
-
 - return to build process tab (close the build tab)
 - click add task
 - search "publish"
@@ -71,67 +69,61 @@
 - save & queue
 - queue build as before and wait for complete
 - click on build number in the breadcrumb
-- click on artifacts
+- click on artifacts (tiny link)
 - click explore - review and check
 
 ## Add CI
-back in build
-click options
-enable continuous int
-hit save
-no comment
-go to build screen
-back in vs code
-change code
-go to SCM in vscode (maybe have to sync)
-message
-tick
-... push
+- back in build
+- click options
+- enable continuous int
+- hit save no need to put a comment
+- go to main VSTS "builds" screen and wait
+- back in vs code
+- change code - FIX SPELLING MISTAKE
+- Go to SCM icon (Y like symbol) in vscode, should be a 1 next to it
+   - Enter commit message
+   - Click tick
+   - Click the '...' select push from menu
 
-## Add CD - Create ARM
-Go into Azure portal
-search for template
-"custom template"
-create your own
----- intro to arm 
------ into to app svc & paas
-add resource
-- app serviceplan "myAppServicePlan"
-add web app
-- myWebApp
-- choose existing plan
-EDIT VARIBLE to mywebapp-202076 *hardcode* !!
-Hit save
-click edit parameters
-add name
-{{
-   Change to Basic
-   Click download
-   download to app dir
-   click save
-   click edit template
-   download
-   download app dir
-   Commit and push
-}} TO be replaced with download template from git
+### *(NOTES GET ROUGHER STILL!)*
 
-## CD - in VSTS
-VSTS - Build & Release - Release
-+ New Definition
-"Deploy Node.js App to Azure App Service"
-Name environment staging
+## Create ARM template
+- *SLIDE(S) Introduce topic - ARM*
+- *SLIDE(S) Introduce topic - App Svc & PaaS*
+- Go into Azure portal
+- search for template
+- "custom template"
+- create your own
+- add resource
+  - app serviceplan "myAppServicePlan"
+- add web app
+  - myWebApp
+  - choose existing plan
+- STOP HERE
+- ***Download working template from git, add to project and commit and push as before***
 
-add artifact
-source = build my node app
-click add
-
-Set env level params for Azure (sub and web app name)
-add new task
-search for reasource add deploy azure resource
-drag above deploy
-
-pick RG = MyAppRG-$(Release.EnvironmentName)
-Loc = West Europe
-browse to template & param file
-override params
-pickname for web app param = mynodeappbc-$(Release.EnvironmentName) 
+## Release pipeline in VSTS
+#### NOTE I THINK THIS IS TOO COMPLEX - Replace with importing a working process from json file? then just edit it
+#### I think I've got a working release .json in vsts folder [here](/vsts) they will still need to pick the azure sub, the unique prefix for their webapp name, and use the file picker to select the folder to deploy, & the location of the ARM templates - but that is all in the linked parameters so they only need to go to one place to set everything - I THINK!
+- back in VSTS goto Build & Release -> Release
+- Click '+ New Definition'
+- Pick template 
+- "Deploy Node.js App to Azure App Service"
+- Name environment staging
+- add artifact
+  - source = "build my node app" build process
+  - click add
+- Click into "staging" environment tasks & phases
+- Set environment level params for Azure 
+  - Click on staging at top 
+  - Connect to your Azure subscription (Authorize)
+  - enter app name = "mywebapp-$(Release.EnvironmentName)"
+- add new task
+- search for "resource" add deploy azure resource
+- drag above deploy
+- Edit settings
+  - pick RG = "MyAppRG-$(Release.EnvironmentName)"
+  - Location = "West Europe"
+  - browse to template & param file in your artifacts (click [...] buttons)
+  - override params
+    - name for web app name param = "$(Parameters.WebAppName)"

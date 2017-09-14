@@ -1,0 +1,367 @@
+{
+   "source": 2,
+   "id": 1,
+   "revision": 13,
+   "name": "MyApp Release Pipeline",
+   "description": null,
+   "createdBy": {
+      "id": "81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+      "displayName": "Ben Coleman",
+      "uniqueName": "becolem@microsoft.com",
+      "url": "https://app.vssps.visualstudio.com/Ac13c7b99-2463-4cd0-84a0-5260108a913e/_apis/Identities/81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+      "imageUrl": "https://benc-uk.visualstudio.com/_api/_common/identityImage?id=81613f75-f6e3-49cb-abdf-ff2ba28a0d03"
+   },
+   "createdOn": "2017-09-13T13:45:17.933Z",
+   "modifiedBy": {
+      "id": "81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+      "displayName": "Ben Coleman",
+      "uniqueName": "becolem@microsoft.com",
+      "url": "https://app.vssps.visualstudio.com/Ac13c7b99-2463-4cd0-84a0-5260108a913e/_apis/Identities/81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+      "imageUrl": "https://benc-uk.visualstudio.com/_api/_common/identityImage?id=81613f75-f6e3-49cb-abdf-ff2ba28a0d03"
+   },
+   "modifiedOn": "2017-09-14T09:58:09.350Z",
+   "path": "\\",
+   "variables": {},
+   "variableGroups": [],
+   "environments": [
+      {
+         "id": 1,
+         "name": "Staging",
+         "rank": 1,
+         "owner": {
+            "id": "81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+            "displayName": "Ben Coleman",
+            "uniqueName": "becolem@microsoft.com",
+            "url": "https://app.vssps.visualstudio.com/Ac13c7b99-2463-4cd0-84a0-5260108a913e/_apis/Identities/81613f75-f6e3-49cb-abdf-ff2ba28a0d03",
+            "imageUrl": "https://benc-uk.visualstudio.com/_api/_common/identityImage?id=81613f75-f6e3-49cb-abdf-ff2ba28a0d03"
+         },
+         "variables": {},
+         "preDeployApprovals": {
+            "approvals": [
+               {
+                  "rank": 1,
+                  "isAutomated": true,
+                  "isNotificationOn": false,
+                  "id": 1
+               }
+            ]
+         },
+         "deployStep": {
+            "tasks": [],
+            "id": 2
+         },
+         "postDeployApprovals": {
+            "approvals": [
+               {
+                  "rank": 1,
+                  "isAutomated": true,
+                  "isNotificationOn": false,
+                  "id": 3
+               }
+            ]
+         },
+         "deployPhases": [
+            {
+               "deploymentInput": {
+                  "parallelExecution": {
+                     "parallelExecutionType": "none"
+                  },
+                  "skipArtifactsDownload": false,
+                  "queueId": 153,
+                  "demands": [],
+                  "enableAccessToken": false,
+                  "timeoutInMinutes": 0,
+                  "jobCancelTimeoutInMinutes": 1,
+                  "condition": "succeeded()",
+                  "overrideInputs": {}
+               },
+               "rank": 1,
+               "phaseType": 1,
+               "name": "Run on agent",
+               "workflowTasks": [
+                  {
+                     "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
+                     "version": "2.*",
+                     "name": "Azure Template Deployment",
+                     "refName": "AzureResourceGroupDeployment1",
+                     "enabled": true,
+                     "alwaysRun": false,
+                     "continueOnError": false,
+                     "timeoutInMinutes": 0,
+                     "definitionType": "task",
+                     "overrideInputs": {},
+                     "condition": "succeeded()",
+                     "inputs": {
+                        "ConnectedServiceName": "$(Parameters.ConnectedServiceName)",
+                        "action": "Create Or Update Resource Group",
+                        "resourceGroupName": "MyAppRG-$(Release.EnvironmentName)",
+                        "location": "West Europe",
+                        "templateLocation": "Linked artifact",
+                        "csmFileLink": "",
+                        "csmParametersFileLink": "",
+                        "csmFile": "$(Parameters.csmFile)",
+                        "csmParametersFile": "$(Parameters.csmParametersFile)",
+                        "overrideParameters": "-myWebAppName $(Parameters.WebAppName) -myAppServicePlanName my-service-plan -myAppServicePlanSKU Basic -myAppServicePlanWorkerSize 0",
+                        "deploymentMode": "Incremental",
+                        "enableDeploymentPrerequisites": "None",
+                        "deploymentGroupEndpoint": "",
+                        "project": "",
+                        "deploymentGroupName": "",
+                        "copyAzureVMTags": "true",
+                        "outputVariable": ""
+                     }
+                  },
+                  {
+                     "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
+                     "version": "3.*",
+                     "name": "Deploy MyApp to Azure App Service",
+                     "refName": "AzureRmWebAppDeployment1",
+                     "enabled": true,
+                     "alwaysRun": false,
+                     "continueOnError": false,
+                     "timeoutInMinutes": 0,
+                     "definitionType": null,
+                     "overrideInputs": {},
+                     "condition": "succeeded()",
+                     "inputs": {
+                        "ConnectedServiceName": "$(Parameters.ConnectedServiceName)",
+                        "WebAppName": "$(Parameters.WebAppName)",
+                        "WebAppKind": "$(Parameters.WebAppKind)",
+                        "DeployToSlotFlag": "false",
+                        "ResourceGroupName": "",
+                        "SlotName": "",
+                        "DockerNamespace": "$(Parameters.DockerNamespace)",
+                        "DockerRepository": "$(Parameters.DockerRepository)",
+                        "DockerImageTag": "",
+                        "StartupCommand": "",
+                        "VirtualApplication": "",
+                        "Package": "$(Parameters.Package)",
+                        "WebAppUri": "",
+                        "ScriptType": "",
+                        "InlineScript": ":: You can provide your deployment commands here. One command per line.",
+                        "ScriptPath": "",
+                        "GenerateWebConfig": "true",
+                        "WebConfigParameters": "-Handler iisnode -NodeStartFile bin/www -appType node",
+                        "AppSettings": "",
+                        "TakeAppOfflineFlag": "true",
+                        "UseWebDeploy": "false",
+                        "SetParametersFile": "",
+                        "RemoveAdditionalFilesFlag": "false",
+                        "ExcludeFilesFromAppDataFlag": "false",
+                        "AdditionalArguments": "",
+                        "RenameFilesFlag": "true",
+                        "XmlTransformation": "false",
+                        "XmlVariableSubstitution": "false",
+                        "JSONFiles": ""
+                     }
+                  }
+               ]
+            }
+         ],
+         "environmentOptions": {
+            "emailNotificationType": "OnlyOnFailure",
+            "emailRecipients": "release.environment.owner;release.creator",
+            "skipArtifactsDownload": false,
+            "timeoutInMinutes": 0,
+            "enableAccessToken": false,
+            "publishDeploymentStatus": true
+         },
+         "demands": [],
+         "conditions": [
+            {
+               "name": "ReleaseStarted",
+               "conditionType": 1,
+               "value": ""
+            }
+         ],
+         "executionPolicy": {
+            "concurrencyCount": 0,
+            "queueDepthCount": 0
+         },
+         "schedules": [],
+         "retentionPolicy": {
+            "daysToKeep": 30,
+            "releasesToKeep": 3,
+            "retainBuild": true
+         },
+         "processParameters": {
+            "inputs": [
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "ConnectedServiceName",
+                  "label": "Azure subscription",
+                  "defaultValue": "",
+                  "required": true,
+                  "type": "connectedService:AzureRM",
+                  "helpMarkDown": "Select the Azure Resource Manager subscription for the deployment.",
+                  "visibleRule": "",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {
+                     "EditableOptions": "false",
+                     "PopulateDefaultValue": "true"
+                  },
+                  "name": "WebAppKind",
+                  "label": "Web app kind",
+                  "defaultValue": "",
+                  "type": "pickList",
+                  "helpMarkDown": "",
+                  "visibleRule": "WebAppName = invalidwebappname",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "DockerNamespace",
+                  "label": "Registry or Namespace",
+                  "defaultValue": "",
+                  "required": true,
+                  "type": "string",
+                  "helpMarkDown": "A globally unique top-level domain name for your specific registry or namespace.<br/> Note: Fully qualified image name will be of the format: '<b>`<registry or namespace`></b>/`<repository`>:`<tag`>'. For example, '<b>myregistry.azurecr.io</b>/nginx:latest'.",
+                  "visibleRule": "WebAppKind = applinux",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "DockerRepository",
+                  "label": "Repository",
+                  "defaultValue": "",
+                  "required": true,
+                  "type": "string",
+                  "helpMarkDown": "Name of the repository where the container images are stored.<br/> Note: Fully qualified image name will be of the format: '`<registry or namespace`>/<b>`<repository`></b>:`<tag`>'. For example, 'myregistry.azurecr.io/<b>nginx</b>:latest'.",
+                  "visibleRule": "WebAppKind = applinux",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {
+                     "EditableOptions": "True"
+                  },
+                  "name": "WebAppName",
+                  "label": "App Service name",
+                  "defaultValue": "changeme-$(Release.EnvironmentName)",
+                  "required": true,
+                  "type": "pickList",
+                  "helpMarkDown": "Enter or Select the name of an existing Azure App Service.",
+                  "visibleRule": "",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "Package",
+                  "label": "Package or folder",
+                  "defaultValue": "$(System.DefaultWorkingDirectory)/Build My Node App/myapp",
+                  "required": true,
+                  "type": "filePath",
+                  "helpMarkDown": "Folder or file path to the App Service package. Variables ( [Build](https://www.visualstudio.com/docs/build/define/variables) | [Release](https://www.visualstudio.com/docs/release/author-release-definition/understanding-tasks#predefvariables)), wild cards are supported. <br/> For example, $(System.DefaultWorkingDirectory)/\\*\\*/\\*.zip.",
+                  "visibleRule": "",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "csmFile",
+                  "label": "Template",
+                  "defaultValue": "$(System.DefaultWorkingDirectory)/Build My Node App/myapp/azuredeploy.json",
+                  "required": true,
+                  "type": "filePath",
+                  "helpMarkDown": "Specify the path or a pattern pointing to the Azure Resource Manager template. For more information about the templates see https://aka.ms/azuretemplates. To get started immediately use template https://aka.ms/sampletemplate.",
+                  "visibleRule": "",
+                  "groupName": ""
+               },
+               {
+                  "options": {},
+                  "properties": {},
+                  "name": "csmParametersFile",
+                  "label": "Template parameters",
+                  "defaultValue": "$(System.DefaultWorkingDirectory)/Build My Node App/myapp/azuredeploy.parameters.json",
+                  "type": "filePath",
+                  "helpMarkDown": "Specify the path or a pattern pointing for the parameters file for the Azure Resource Manager template.",
+                  "visibleRule": "",
+                  "groupName": ""
+               }
+            ],
+            "dataSourceBindings": [
+               {
+                  "dataSourceName": "AzureRMWebAppNames",
+                  "parameters": {},
+                  "endpointId": "$(ConnectedServiceName)",
+                  "target": "WebAppName"
+               },
+               {
+                  "dataSourceName": "AzureAppKind",
+                  "parameters": {
+                     "WebAppName": "$(WebAppName)"
+                  },
+                  "endpointId": "$(ConnectedServiceName)",
+                  "target": "WebAppKind",
+                  "resultTemplate": "{\"Value\":\"{{{ #stringReplace ',' '' kind }}}\",\"DisplayValue\":\"{{{ #stringReplace ',' '' kind }}}\"}"
+               },
+               {
+                  "dataSourceName": "AzureRMWebAppNames",
+                  "parameters": {},
+                  "endpointId": "$(ConnectedServiceName)",
+                  "target": "WebAppName"
+               }
+            ]
+         },
+         "properties": {}
+      }
+   ],
+   "artifacts": [
+      {
+         "sourceId": "13ea521d-9d51-46e6-8149-8d9cdefc43d5:52",
+         "type": "Build",
+         "alias": "Build My Node App",
+         "definitionReference": {
+            "artifactSourceDefinitionUrl": {
+               "id": "https://benc-uk.visualstudio.com/_permalink/_build/index?collectionId=99bcfaf8-1201-461a-9c7e-49d5ae0ca316&projectId=13ea521d-9d51-46e6-8149-8d9cdefc43d5&definitionId=52",
+               "name": ""
+            },
+            "defaultVersionBranch": {
+               "id": "",
+               "name": ""
+            },
+            "defaultVersionSpecific": {
+               "id": "",
+               "name": ""
+            },
+            "defaultVersionTags": {
+               "id": "",
+               "name": ""
+            },
+            "defaultVersionType": {
+               "id": "latestType",
+               "name": "Latest"
+            },
+            "definition": {
+               "id": "52",
+               "name": "Build My Node App"
+            },
+            "project": {
+               "id": "13ea521d-9d51-46e6-8149-8d9cdefc43d5",
+               "name": "DevOps Lab"
+            }
+         },
+         "isPrimary": true
+      }
+   ],
+   "triggers": [],
+   "releaseNameFormat": "Release-$(rev:r)",
+   "url": "https://benc-uk.vsrm.visualstudio.com/13ea521d-9d51-46e6-8149-8d9cdefc43d5/_apis/Release/definitions/1",
+   "_links": {
+      "self": {
+         "href": "https://benc-uk.vsrm.visualstudio.com/13ea521d-9d51-46e6-8149-8d9cdefc43d5/_apis/Release/definitions/1"
+      },
+      "web": {
+         "href": "https://benc-uk.visualstudio.com/13ea521d-9d51-46e6-8149-8d9cdefc43d5/_release?definitionId=1"
+      }
+   },
+   "tags": [],
+   "properties": {}
+}
