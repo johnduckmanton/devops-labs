@@ -1,82 +1,78 @@
-# TODO
-Make mistake in snippet - DONE!
+# Getting Started
+- *SLIDE(S) Introduce topic - Node/express/npm etc*
+- Open PowerShell
+- `npm install -g express-generator`
+- Check with `express --help`
+- `cd <where you want to create your app>`
+- `express --git --view=pug myapp`
 
-# Basics
-npm install -g express-generator
-
-express --help
-
-cd <where you want to create your app>
-
-express --git --view=pug myapp
-
-# VSCode
-code myapp
-
-ctrl-'
-(make sure you are on the TERMINAL tab)
-
-npm install
-
-npm start
-(Firewall window)
-
-open browser - http://localhost:3000
+# VSCode & Starting the Node app
+- `code myapp`
+- Take a look around
+- Open Package.json and explain demystify
+- Open VSCode terminal **CTRL-'** make sure you are on the TERMINAL tab, not OUTPUT
+- `npm install`
+- `npm start` Firewall window might popup - allow it!
+- Open browser - http://localhost:3000
+- Gasp in horror at ugly app!
 
 # Improve the app
-https://github.com/benc-uk/azure-node-docker-paas/blob/master/extras/app-snippets.md
-!TODO! Comment where the files are
-Copy paste & save
+- Copy & paste & save from here - https://github.com/benc-uk/devops-labs/blob/master/node-lab/app-snippets.md
 
-CTRL-C in terminal
-npm start again
-refresh browser
+- `CTRL-C` in terminal might need to press Y
+- `npm start` again
+- Refresh browser - cool! Note spelling mistake we will fix later
 
 # Git
-git init
-git add .
-git status
-(check node_modules)
-git commit -m "Created nodejs webapp"
+- *SLIDE(S) Introduce topic - Git*
+- Back in VSCode terminal:
+  - `git init`
+  - `git add .`
+  - `git status` (check node_modules is **not** in staged files)
+  - `git commit -m "Created new webapp"`
 
 # VSTS
-Create new project "DevOps Lab"
-- git
-- defaults other than Team Members
+- *SLIDE(S) Introduce topic - Git*
+- *SLIDE(S) Introduce topic - VSTS!*
+- Go to your existing account or create one via [my.visualstudio.com](my.visualstudio.com)
+- Create new VSTS project call it "DevOps Lab"
+  - Pick Git as source control
+  - Take other defaults other than share with "Team Members" only
 
-In new project
-"expand" or push an existing repository from command line
-copy commands
-run in vscode
-back in vsts click on "code"
+- On new project page in VSTS
+  - Expand "push an existing repository from command line" box
+  - Copy commands there
+  - Paste and run in VSCode terminal
+  - **Explain Git remote** 
+  - Back in VSTS click on "Code" on menu (validate your code is there!)
 
-click setpu build
-pick empty
-name "Build My Node App"
-pick agent queue hosted
+*(FROM HERE MY NOTES GET ROUGHER!)*
 
-**comment on environments**
+# VSTS - Build process
+- Click setup build
+- pick empty process
+- rename "Build My Node App"
+- pick agent queue - "Hosted"
+- Click on add task
+- search for "npm"
+- add npm task
+- leave defaults
+- click save & queue
+- click queue
+- click on build number (opens in new tab)
+- watch & wait!
 
-Click on add task
-search for npm
-add npm
-leave defaults
-click save & queue
-click queue
-click on build #123
-wait!
-
-add task
-search publish
-"pubish build artifacts"
-path = .
-name = 'myapp'
-save & queue
-queue build
-
-click on build number
-click on artifacts
-click explore - review 
+- return to build process tab (close the build tab)
+- click add task
+- search "publish"
+- add "pubish build artifacts" task
+  - path = .
+  - artifact name = 'myapp' *NOTE. maybe a better name?**
+- save & queue
+- queue build as before and wait for complete
+- click on build number in the breadcrumb
+- click on artifacts
+- click explore - review and check
 
 ## Add CI
 back in build
