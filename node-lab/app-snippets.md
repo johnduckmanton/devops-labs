@@ -4,9 +4,9 @@ extends layout
 
 block content
   h1 
-    img(src='https://github.com/benc-uk/azure-node-docker-paas/blob/master/src/public/images/icon.png?raw=true' height='64px' align='absmiddle')
-    span &nbsp;Linux PaaS &ndash; Demo Web App
-  h2 System Info...
+    img(src='https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg')
+    span Node.js - Demoo Web Applucation
+  h2 &#x1F4BB; System Info...
   table 
     tr 
       td OS: 
@@ -19,14 +19,14 @@ block content
       td #{info.cpus.length} &times; #{info.cpus[0].model}
     tr
       td Memory: 
-      td #{Math.round(info.mem/(1024*1024))} Mb
+      td #{Math.round(info.mem/(1024*1024))} MB
     tr
       td Environment: 
       td #{info.env}     
   if isDocker
-    h3 Status: Running in a Docker container! &#x1F604; 
+    h3 &#x1F4E6; Status: Running in a Docker container! &#x1F604; 
   else
-    h3 Status: <b>Not</b> running as a Docker container &#x1F622;
+    h3 &#x1F4E6; Status: Not running as a Docker container &#x1F622;
   hr
   h2 Azure &hearts; Open source
 ```
