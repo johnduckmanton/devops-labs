@@ -11,3 +11,6 @@ Initial idea...
  - Part 1 - Creating app & CI
  - Part 2 - Starting CD - IaC & ARM
  - Part 3 - Rest of CD (release) & App Insights
+
+### Scratch pad
+[Rough thoughts and ideas here](scratch.md)
