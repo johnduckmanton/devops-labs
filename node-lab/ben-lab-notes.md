@@ -127,3 +127,22 @@
   - browse to template & param file in your artifacts (click [...] buttons)
   - override params
     - name for web app name param = "$(Parameters.WebAppName)"
+
+When done with staging, clone the environment in the VSTS pipeline and rename to "Production" and create a new release, and it should just work as everything has been parameterised - NEEDS TESTING!
+
+## App Inights
+- In Azure portal find your web app and create a new App Insight instance linked to it using the blade
+- Get key for new App Insight instance
+- Full docs here https://docs.microsoft.com/en-us/azure/application-insights/app-insights-nodejs
+- in VSCode in terminal run `npm install applicationinsights --save`
+- Add this snippet to very top of `app.js`
+```
+const appInsights = require("applicationinsights");
+appInsights.setup("<<<changeme-your-instrumentation_key>>");
+appInsights.start();
+```
+- Save, commit & push
+- If we enabled CD previously then it should automatically deploy through :)
+- Hit the site with requests
+- Check App Insights for data flowing in
+- Poke about App Insights
